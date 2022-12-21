@@ -14,6 +14,10 @@ How to run this project?
   👉 make run-build-app
 ```
 
+```bash
+  👉 open http://localhost:8080 on your browser
+```
+
 ## Tech Stack
 - Golang
 - gRPC
