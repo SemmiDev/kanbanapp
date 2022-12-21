@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" class="motion-safe:scroll-smooth 2xl:text-[20px]">
+    <head>
+        {{template "general/header"}}
+    </head>
+    <body>
+        <div
+            class="flex flex-col h-screen overflow-auto text-slate-800 bg-[#f5f2ea] px-8 md:px-16 lg:px-40"
+        >
+            <!-- navbar -->
+            <div class="pt-8 pb-5 bg-transparent navbar">
+                <div class="items-center flex-1">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 496 512"
+                        class="w-6 h-6 text-black fill-current"
+                    >
+                        <path
+                            d="M88 216c81.7 10.2 273.7 102.3 304 232H0c99.5-8.1 184.5-137 88-232zm32-152c32.3 35.6 47.7 83.9 46.4 133.6C249.3 231.3 373.7 321.3 400 448h96C455.3 231.9 222.8 79.5 120 64z"
+                        />
+                    </svg>
+                    <h1
+                        class="text-xl text-black normal-case bg-transparent border-0 btn btn-sm hover:bg-transparent"
+                    >
+                        Kanban App
+                    </h1>
+                </div>
+
+                <div class="flex-none">
+                    <ul
+                        class="p-0 text-white border-black rounded-lg menu menu-compact menu-horizontal bg-error"
+                    >
+                        <li>
+                            <a
+                                href="/logout"
+                                class="font-bold text-gray-200 active:bg-transparent"
+                            >
+                                Log Out
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex flex-grow px-10 mt-4 space-x-6 overflow-auto">
+                {{range $i, $category := .categories}}
+                <div class="flex flex-col flex-shrink-0 w-72">
+                    <div
+                        class="flex items-center justify-between flex-shrink-0 h-10 px-2 py-5"
+                    >
+                        <!-- category title -->
+                        <span
+                            class="block text-sm font-semibold bg-[#fcc986] px-3 py-2 rounded-lg hover:scale-105 transition duration-100 items-center flex gap-2"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 576 512"
+                                class="w-4 h-4 text-black fill-current"
+                            >
+                                <path
+                                    d="M184.1 38.2c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L39 113c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l22.1 22.1 55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zm0 160c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L39 273c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l22.1 22.1 55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zM256 96c0-17.7 14.3-32 32-32H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H288c-17.7 0-32-14.3-32-32zm0 160c0-17.7 14.3-32 32-32H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H288c-17.7 0-32-14.3-32-32zM192 416c0-17.7 14.3-32 32-32H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32zM80 464c-26.5 0-48-21.5-48-48s21.5-48 48-48s48 21.5 48 48s-21.5 48-48 48z"
+                                />
+                            </svg>
+
+                            {{$category.Type}}</span
+                        >
+
+                        <!-- add task and remove category -->
+                        <div class="flex flex-between">
+                            <a
+                                href="/task/add?category={{$category.ID}}"
+                                class="transition duration-200 ease-linea hover:scale-105"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="w-8 h-8 stroke-sky-700"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                            </a>
+
+                            <a
+                                href="/category/delete?category_id={{$category.ID}}"
+                                class="transition duration-200 ease-linear hover:scale-105"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="w-8 h-8 stroke-red-600"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div
+                        class="flex flex-col pb-2 overflow-auto rounded-lg shadow shadow-lg shadow-[#fcc986] hover:scale-105 transition duration-200 ease-linear"
+                    >
+                        <!-- loop tasks based on category -->
+
+                        {{range $i, $task := $category.Tasks}}
+                        <a href="/task/update?task_id={{$task.ID}}">
+                            <div
+                                class="relative flex flex-col justify-between p-4 mx-2 mt-3 rounded-lg cursor-pointer bg-info bg-opacity-90 group hover:bg-opacity-100"
+                                draggable="true"
+                            >
+                                <!-- delete task by id -->
+                                <form
+                                    method="POST"
+                                    action="/task/delete?task_id={{$task.ID}}"
+                                >
+                                    <button
+                                        class="absolute top-0 right-0 flex items-center justify-center hidden w-5 h-5 mt-3 mr-2 text-gray-500 rounded hover:text-gray-700 group-hover:flex"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="1.5"
+                                            stroke="currentColor"
+                                            class="w-6 h-6 stroke-red-700"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                                            />
+                                        </svg>
+                                    </button>
+                                </form>
+
+                                <!-- title -->
+                                <h2 class="text-lg font-medium break-all">
+                                    {{$task.Title}}
+                                </h2>
+
+                                <!-- description -->
+                                <h4 class="mt-3 text-sm font-medium break-all">
+                                    {{$task.Description}}
+                                </h4>
+
+                                <!-- left and right arrow -->
+                                <div class="flex justify-between mt-2">
+                                    <a
+                                        href="/task/update/process?task_id={{$task.ID}}&category_id={{ categoryDec $category.ID }}"
+                                    >
+                                        <button
+                                            class="flex items-center justify-center hidden w-5 h-5 mt-3 mr-2 text-gray-500 rounded hover:text-gray-700 group-hover:flex"
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="16"
+                                                height="16"
+                                                fill="currentColor"
+                                                class="bi bi-arrow-left stroke-black"
+                                                viewBox="0 0 16 16"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </a>
+                                    <a
+                                        href="/task/update/process?task_id={{$task.ID}}&category_id={{ categoryInc $category.ID }}"
+                                    >
+                                        <button
+                                            class="flex items-center justify-center hidden w-5 h-5 mt-3 mr-2 text-gray-500 rounded hover:bg-gray-200 hover:text-gray-700 group-hover:flex"
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="16"
+                                                height="16"
+                                                fill="currentColor"
+                                                class="bi bi-arrow-right stroke-black"
+                                                viewBox="0 0 16 16"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </a>
+                        {{end}}
+                    </div>
+                </div>
+                {{end}}
+
+                <div class="flex flex-col flex-shrink-0 w-72">
+                    <div class="flex items-center flex-shrink-0 h-12 px-2">
+                        <a href="/category/add">
+                            <button
+                                class="flex items-center px-6 py-3 ml-auto text-white cursor-pointer bg-slate-900 rounded-xl gap-x-2 flex-start"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 512 512"
+                                    class="w-5 h-5 text-white fill-current"
+                                >
+                                    <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                    <path
+                                        d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"
+                                    />
+                                </svg>
+
+                                Add Category
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

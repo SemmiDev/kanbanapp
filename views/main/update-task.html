@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" class="motion-safe:scroll-smooth 2xl:text-[20px]">
+    <head>
+        {{template "general/header"}}
+    </head>
+    <body
+        class="antialiased text-black tracking-tight min-h-screen bg-[#f5f2ea] flex flex-col w-full items-center grid-cols-[repeat(auto-fit,_16.666666%)] justify-center"
+    >
+        {{template "general/navbar-admin"}}
+
+        <form
+            action="/task/update/process?task_id={{.ID}}"
+            method="post"
+            class="max-w-[450px] h-full justify-center border border-1 border-[#fcc986] py-20 w-full flex flex-col items-center mx-auto p-10 rounded-3xl bg-white shadow-2xl shadow-yellow-500/30"
+        >
+            <h1 class="text-2xl font-semibold text-center text-black">Task</h1>
+            <h3 class="my-5 text-xs text-center break-all text-black/70">
+                Update new task
+            </h3>
+            <div class="w-full form-control">
+                <input
+                    id="task"
+                    type="text"
+                    placeholder="Title"
+                    value="{{.Title}}"
+                    required
+                    autofocus
+                    name="title"
+                    class="w-full mb-3 text-black bg-white border input input-bordered border-1 border-slate-900/30"
+                />
+            </div>
+            <div class="w-full form-control">
+                <textarea
+                    required
+                    placeholder="Description"
+                    class="w-full px-3 pt-3 mb-2 text-black bg-white border rounded-lg textarea textarea-bordered border-1 border-slate-900/30"
+                    name="description"
+                    id="description"
+                    cols="10"
+                    rows="8"
+                >
+{{.Description}}</textarea
+                >
+            </div>
+
+            <button
+                type="submit"
+                class="w-full mt-5 btn hover:bg-[#fcc986] font-semibold bg-[#fcc986] border-0 text-black"
+            >
+                Update
+            </button>
+        </form>
+        {{template "general/footer"}}
+    </body>
+</html>

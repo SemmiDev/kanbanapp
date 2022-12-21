@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" class="motion-safe:scroll-smooth 2xl:text-[20px]">
+    <head>
+        {{template "general/header"}}
+    </head>
+    <body
+        class="antialiased text-black tracking-tight min-h-screen bg-[#f5f2ea] flex flex-col w-full items-center grid-cols-[repeat(auto-fit,_16.666666%)] justify-center"
+    >
+        {{template "general/navbar"}}
+
+        <div
+            class="grid grid-cols-1 gap-40 px-8 pt-8 pb-5 md:px-16 lg:px-40 lg:grid-cols-2"
+        >
+            <div>
+                <form
+                    action="/login/process"
+                    method="post"
+                    class="max-w-[450px] h-full justify-center border border-1 border-[#fcc986] py-20 w-full flex flex-col items-center mx-auto p-10 rounded-3xl bg-white shadow-2xl shadow-yellow-500/30"
+                >
+                    <h1 class="text-2xl font-semibold text-center text-black">
+                        Login
+                    </h1>
+                    <p class="my-5 text-xs text-center break-all text-black/70">
+                        Hey, enter your details to get sign in to your account
+                    </p>
+                    <div class="w-full form-control">
+                        <input
+                            id="email"
+                            type="email"
+                            placeholder="Email"
+                            required
+                            autofocus
+                            name="email"
+                            class="w-full mb-3 text-black bg-white border input input-bordered border-1 border-slate-900/30"
+                        />
+                    </div>
+
+                    <div class="w-full form-control">
+                        <input
+                            type="password"
+                            name="password"
+                            required
+                            placeholder="*************"
+                            class="w-full text-black bg-white border input input-bordered border-1 border-slate-900/30"
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        class="w-full mt-5 btn hover:bg-[#fcc986] font-semibold bg-[#fcc986] border-0 text-black"
+                    >
+                        Sign In
+                    </button>
+                    <span class="block w-full mt-5 text-sm text-center"
+                        >Don't have an account?
+                        <a
+                            href="/register"
+                            class="font-semibold text-orange-400 hover:underline"
+                            >Sign Up</a
+                        ></span
+                    >
+                </form>
+            </div>
+            <div class="hidden lg:block">
+                <img
+                    src="https://raw.githubusercontent.com/SemmiDev/fp-images/da0f9bc56665ed3d95fd16d5cebb3f6b76640d19/login.svg"
+                    alt="kanban"
+                    class="hidden object-cover w-full h-full transition-all duration-300 ease-linear border-0 rounded-lg lg:block hover:scale-105"
+                />
+            </div>
+        </div>
+
+        {{template "general/footer"}}
+    </body>
+</html>

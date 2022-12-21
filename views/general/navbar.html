@@ -1,0 +1,58 @@
+{{define "general/navbar"}}
+
+<div class="navbar pb-5 pt-8 bg-transparent px-8 md:px-16 lg:px-40">
+    <div class="flex-1 items-center">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 496 512"
+            class="h-6 w-6 text-black fill-current"
+        >
+            <path
+                d="M88 216c81.7 10.2 273.7 102.3 304 232H0c99.5-8.1 184.5-137 88-232zm32-152c32.3 35.6 47.7 83.9 46.4 133.6C249.3 231.3 373.7 321.3 400 448h96C455.3 231.9 222.8 79.5 120 64z"
+            />
+        </svg>
+        <h1
+            class="btn btn-sm bg-transparent hidden md:flex border-0 text-black hover:bg-transparent normal-case text-xl"
+        >
+            Kanban App
+        </h1>
+    </div>
+    <div class="flex-none">
+        <ul class="menu hidden md:block menu-compact menu-horizontal p-0">
+            <li>
+                <a href="/" class="font-bold active:bg-transparent text-black"
+                    ><svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-5 h-5"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                        />
+                    </svg>
+                </a>
+                <a
+                    href="/login"
+                    class="font-bold active:bg-transparent text-black"
+                    >Log In</a
+                >
+            </li>
+        </ul>
+
+        <ul
+            class="menu menu-compact menu-horizontal border-black p-0 bg-[#fcc986] rounded-lg"
+        >
+            <li>
+                <a href="/register" class="text-black active:bg-transparent">
+                    Sign up <strong>Free</strong>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+{{end}}

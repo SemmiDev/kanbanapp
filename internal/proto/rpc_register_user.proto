@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/SemmiDev/kanbanapp/internal/pb";
+
+message CreateUserRequest {
+    string fullname = 1;
+    string email = 2;
+    string password = 3;
+}
+
+message CreateUserResponse {
+    double user_id = 1;
+    string message = 2;
+}
