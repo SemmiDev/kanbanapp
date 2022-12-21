@@ -22,6 +22,7 @@ How to run this project?
 
 -   Golang
 -   gRPC
+-   gRPC Gateway
 -   GraphQL (todo)
 -   gORM
 -   PostgreSQL
