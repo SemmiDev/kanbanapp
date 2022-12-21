@@ -1,12 +1,12 @@
 package main
 
 import (
+	"context"
 	"embed"
 	"fmt"
 	"net"
 	"net/http"
 	"os"
-	"sync"
 
 	"github.com/SemmiDev/kanbanapp/internal/client"
 	"github.com/SemmiDev/kanbanapp/internal/handler/api"
@@ -18,10 +18,12 @@ import (
 	"github.com/SemmiDev/kanbanapp/internal/service"
 	"github.com/SemmiDev/kanbanapp/internal/utils"
 
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	_ "github.com/lib/pq"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/protobuf/encoding/protojson"
 	"gorm.io/gorm"
 )
 
@@ -52,43 +54,36 @@ func main() {
 	//TODO: hapus jika sudah di deploy di fly.io
 	os.Setenv("DATABASE_URL", "postgres://root:secret@localhost:5432/kampusmerdeka")
 
-	wg := sync.WaitGroup{}
+	err := utils.ConnectDB()
+	if err != nil {
+		panic(err)
+	}
 
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
+	db := utils.GetDBConnection()
 
-		mux := http.NewServeMux()
-		var staticFS = http.FS(staticFiles)
-		fs := http.FileServer(staticFS)
+	go RunGrpcServer(db)
+	go runGatewayServer(db)
 
-		// Serve static files
-		mux.Handle("/static/", fs)
+	mux := http.NewServeMux()
+	var staticFS = http.FS(staticFiles)
+	fs := http.FileServer(staticFS)
 
-		err := utils.ConnectDB()
-		if err != nil {
-			panic(err)
-		}
+	// Serve static files
+	mux.Handle("/static/", fs)
 
-		db := utils.GetDBConnection()
+	mux = RunHttpServer(db, mux)
+	mux = RunClient(mux, Resources)
 
-		mux = RunHttpServer(db, mux)
-		mux = RunClient(mux, Resources)
-
-		fmt.Println("Server is running on port 8080")
-		err = http.ListenAndServe(":8080", mux)
-		if err != nil {
-			panic(err)
-		}
-	}()
-
-	wg.Wait()
+	fmt.Println("Server is running on port 8080")
+	err = http.ListenAndServe(":8080", mux)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func RunGrpcServer(db *gorm.DB) {
 	userRepo := repository.NewUserRepository(db)
 	categoryRepo := repository.NewCategoryRepository(db)
-
 	userService := service.NewUserService(userRepo, categoryRepo)
 
 	server, err := gapi.NewServer(userService)
@@ -109,6 +104,51 @@ func RunGrpcServer(db *gorm.DB) {
 	err = grpcServer.Serve(listener)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot start gRPC server")
+	}
+}
+
+func runGatewayServer(db *gorm.DB) {
+	userRepo := repository.NewUserRepository(db)
+	categoryRepo := repository.NewCategoryRepository(db)
+	userService := service.NewUserService(userRepo, categoryRepo)
+
+	server, err := gapi.NewServer(userService)
+	if err != nil {
+		log.Fatal().Err(err).Msg("scannot create server")
+	}
+
+	jsonOption := runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{
+		MarshalOptions: protojson.MarshalOptions{
+			UseProtoNames: true,
+		},
+		UnmarshalOptions: protojson.UnmarshalOptions{
+			DiscardUnknown: true,
+		},
+	})
+
+	grpcMux := runtime.NewServeMux(jsonOption)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err = pb.RegisterKanbanHandlerServer(ctx, grpcMux, server)
+	if err != nil {
+		log.Fatal().Err(err).Msg("cannot register handler server")
+	}
+
+	mux := http.NewServeMux()
+	mux.Handle("/", grpcMux)
+
+	listener, err := net.Listen("tcp", ":8082")
+	if err != nil {
+		log.Fatal().Err(err).Msg("cannot create listener")
+	}
+
+	log.Info().Msgf("start HTTP gateway server at %s", listener.Addr().String())
+	handler := gapi.HttpLogger(mux)
+	err = http.Serve(listener, handler)
+	if err != nil {
+		log.Fatal().Err(err).Msg("cannot start HTTP gateway server")
 	}
 }
 
