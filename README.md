@@ -31,8 +31,8 @@ How to run this project?
 
 ## Screnshoot
 
-[![1](https://github.com/SemmiDev/kanbanapp/tree/main/guideline/screenshoot/1.png)
-[![2](https://github.com/SemmiDev/kanbanapp/tree/main/guideline/screenshoot/2.png)
-[![3](https://github.com/SemmiDev/kanbanapp/tree/main/guideline/screenshoot/3.png)
-[![4](https://github.com/SemmiDev/kanbanapp/tree/main/guideline/screenshoot/4.png)
-[![5](https://github.com/SemmiDev/kanbanapp/tree/main/guideline/screenshoot/5.png)
+![1](https://raw.githubusercontent.com/SemmiDev/kanbanapp/main/guideline/screenshoot/1.png)
+![2](https://raw.githubusercontent.com/SemmiDev/kanbanapp/main/guideline/screenshoot/2.png)
+![3](https://raw.githubusercontent.com/SemmiDev/kanbanapp/main/guideline/screenshoot/3.png)
+![4](https://raw.githubusercontent.com/SemmiDev/kanbanapp/main/guideline/screenshoot/4.png)
+![5](https://raw.githubusercontent.com/SemmiDev/kanbanapp/main/guideline/screenshoot/5.png)
